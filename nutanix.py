@@ -408,7 +408,7 @@ class NutanixInventory(object):
     def nutanix_inventory(self, inventory_type):
         ''' Generate inventory from one or more configured clusters '''
 
-        config = self.get_settings()
+        #config = self.get_settings()
 
         self.inventory = {}
 
@@ -419,7 +419,7 @@ class NutanixInventory(object):
             #cluster_details = cluster_list.get(cluster)
             # Get cluster address
             try:
-                self.nutanix_address = os.environ.get('ahv_hostname')
+                self.nutanix_address = os.environ.get('nhostname')
             except KeyError:
                 print('An address must be configured for cluster.')
                 sys.exit(1)
@@ -430,13 +430,13 @@ class NutanixInventory(object):
                 self.nutanix_port = 9440
             # Get cluster username
             try:
-                self.nutanix_username = os.environ.get('ahv_user')
+                self.nutanix_username = os.environ.get('nuser')
             except KeyError:
                 print('A username must be configured for cluster.')
                 sys.exit(1)
             # Get cluster password
             try:
-                self.nutanix_password = os.environ.get('ahv_password')
+                self.nutanix_password = os.environ.get('npassword')
             except KeyError:
                 print('A password must be configured for cluster.')
                 sys.exit(1)
