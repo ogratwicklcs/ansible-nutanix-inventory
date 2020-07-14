@@ -413,46 +413,43 @@ class NutanixInventory(object):
         self.inventory = {}
 
         try:
-            cluster_list = config.get('clusters')
+            cluster_list = config.get('clusters') 
 
-            for cluster in cluster_list:
-                cluster_details = cluster_list.get(cluster)
-                # Get cluster address
-                try:
-                    self.nutanix_address = cluster_details['address']
-                except KeyError:
-                    print('An address must be configured for cluster {}.'
-                          .format(cluster))
-                    sys.exit(1)
-                # API port defaults to 9440 unless specified otherwise
-                if 'port' in cluster_details:
-                    self.nutanix_port = cluster_details['port']
-                else:
-                    self.nutanix_port = 9440
-                # Get cluster username
-                try:
-                    self.nutanix_username = cluster_details['username']
-                except KeyError:
-                    print('A username must be configured for cluster {}.'
-                          .format(cluster))
-                    sys.exit(1)
-                # Get cluster password
-                try:
-                    self.nutanix_password = cluster_details['password']
-                except KeyError:
-                    print('A password must be configured for cluster {}.'
-                          .format(cluster))
-                    sys.exit(1)
-                # SSL verification defaults to True unless specified otherwise
-                if 'verify_ssl' in cluster_details:
-                    self.verify_ssl = cluster_details['verify_ssl']
-                else:
-                    self.verify_ssl = True
+            #for cluster in cluster_list: - OG dont need a loop
+            cluster_details = cluster_list.get(cluster)
+            # Get cluster address
+            try:
+                self.nutanix_address = os.environ.get('ahv_hostname')
+            except KeyError:
+                print('An address must be configured for cluster.')
+                sys.exit(1)
+            # API port defaults to 9440 unless specified otherwise
+            if os.environ.get('ahv_port'):
+                self.nutanix_port = os.environ.get('ahv_port')
+            else:
+                self.nutanix_port = 9440
+            # Get cluster username
+            try:
+                self.nutanix_username = os.environ.get('ahv_user')
+            except KeyError:
+                print('A username must be configured for cluster.')
+                sys.exit(1)
+            # Get cluster password
+            try:
+                self.nutanix_password = os.environ.get('ahv_password')
+            except KeyError:
+                print('A password must be configured for cluster.')
+                sys.exit(1)
+            # SSL verification defaults to True unless specified otherwise
+            if os.environ.get('ahv_port'):
+                self.verify_ssl = os.environ.get('ahv_port')
+            else:
+                self.verify_ssl = False
 
-                if inventory_type == 'all':
-                    self.inventory.update(self.build_cluster_inventory())
-                elif inventory_type == 'host':
-                    self.inventory.update(self.get_host_info())
+            if inventory_type == 'all':
+                self.inventory.update(self.build_cluster_inventory())
+            elif inventory_type == 'host':
+                self.inventory.update(self.get_host_info())
 
             return self.inventory
 
