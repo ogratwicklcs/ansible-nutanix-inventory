@@ -413,10 +413,10 @@ class NutanixInventory(object):
         self.inventory = {}
 
         try:
-            cluster_list = config.get('clusters') 
+            #cluster_list = config.get('clusters') 
 
             #for cluster in cluster_list: - OG dont need a loop
-            cluster_details = cluster_list.get(cluster)
+            #cluster_details = cluster_list.get(cluster)
             # Get cluster address
             try:
                 self.nutanix_address = os.environ.get('ahv_hostname')
