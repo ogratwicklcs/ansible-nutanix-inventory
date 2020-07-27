@@ -147,7 +147,7 @@ class NutanixInventory(object):
         # Parse CLI arguments
         self.parse_cli_args()
         # Get environment variable
-        nutanix_mode = os.environ.get('NUTANIX_MODE')
+        nutanix_mode = 'names'
 
         if self.args.host:
             self.nutanix_inventory('host')
